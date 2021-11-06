@@ -88,9 +88,12 @@ private: System::Void blueButton_Click(...){}
 
 2. Grayscale 
 - 對 RGB 三個 channels 的值進行比重運算，並將處理後的值 assign 回三個 channels。
-$$
+<!-- $$
 Grayscale = R * 0.299 + G * 0.587 + B * 0.114
 $$
+-->
+![](https://i.imgur.com/PYCoFGf.png)
+
 
 ```cpp=
 private: System::Void grayButton_Click(...){
@@ -149,9 +152,11 @@ private: System::Void medianButton_Click(...){
 1. 計算各 grayscale 的 intensity
 2. 計算各 grayscale 的 出現的機率 p~k~ 
 3. 將 p~k~ * 255 做累加，再把CDF的值取round，再對應到p~k~
-$$
+<!-- $$
 G(z_q)_{8-bit} =round( (255 - 0) ⋅ CDF(z_q))
-$$
+$$ -->
+![](https://i.imgur.com/mb9SK25.png)
+
 
 ## 4. Thresholding
 
@@ -185,12 +190,14 @@ private: System::Void ThresholdEnterButton_Click(...) {
 1. Vertical / Horizontal
 左邊和右邊的矩陣分別為偵測 Vertical 和 Horizontal 的 filter，計算圖片的梯度，並取絕對值，若值大於 255，則設為 255。
 若值越大代表該區域的梯度越大，也就是 intensity 變化越大的地方。
-$$
+<!-- $$
 Vertical\ Sobel\ Filter = \left[\begin{array}{ccc}1&2&1\\0&0&0\\-1&-2&-1\\\end{array}\right]
 $$
 $$
 Horizontal\ Sobel\ Filter = \left[\begin{array}{ccc}1&0&-1\\2&0&-2\\1&0&-1\\\end{array}\right]
-$$
+$$ -->
+![](https://i.imgur.com/ARxtEb4.png)
+
 
 2. Combined
 將 Vertical 和 Horizontal 的值相加，若超過 255 則設值為 255
@@ -318,15 +325,17 @@ private: System::Void connectedcompButton_Click(...){
     - 透過原圖的目標圖邊長的比例，即可得到 Scale
 3. Rotation
     - 透過原圖(OrigPoint 1, OrigPoint 2)和目標圖(GoalPoint 1, GoalPoint 2)可以得到兩組向量 $\vec{a}$ $\vec{b}$，而藉此可以算出 $cos(\theta)$ 和 $sin(\theta)$ 和 旋轉的角度。
-$$
+<!-- $$
 InnerProduct = x_1\cdot x_2 + y_1\cdot y_2= \Vert a\Vert\Vert b\Vert\cdot cos(\theta)\\CrossProduct = x_1\cdot y_2 - y_1\cdot x_2 = \Vert a\Vert\Vert b\Vert\cdot sin(\theta)\\Angle = \arctan(\frac{CrossProduct}{InnerProduct})
-$$
+$$ -->
+![](https://i.imgur.com/3NpxBbH.png)
+
 
 
 
 3. Registration
     - 透過旋轉矩陣和縮放矩陣的公式可得到 Registration 後的座標
-$$
+<!-- $$
   \begin{bmatrix}
    i' \\
    j' \\
@@ -344,13 +353,15 @@ $$
    i \\
    j \\
   \end{bmatrix} 
-$$
+$$ -->
+![](https://i.imgur.com/EPUG6Fg.png)
+
 
 ### 8.4 Discussion
 - Registration
     - 一開始我是使用上述的公式去實作，會發現有許多雜點，後來發現到是因為有些點算出來會超過原圖的邊界，導致結果圖看起來像是有雜訊。
     原本是想使用Bilinear interpolation 去解決雜訊問題，後來決定透過反校正的方式得到座標，公式如下:
-$$
+<!-- $$
   \begin{bmatrix}
    1/Scale & 0 \\
    0 & 1/Scale \\
@@ -368,4 +379,5 @@ $$
    i' \\
    j' \\
   \end{bmatrix} 
-$$
+$$ -->
+![](https://i.imgur.com/NLzIyhB.png)
